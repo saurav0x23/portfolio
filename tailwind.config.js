@@ -6,90 +6,49 @@ export default {
   ],
   theme: {
     extend: {
-      keyframes: {
-        waveUp: {
-          '0%': { transform: 'translateY(100px)', opacity: '0', filter: 'blur(4px)' },
-          '50%': { transform: 'translateY(-10px)', opacity: '0.5', filter: 'blur(2px)' },
-          '100%': { transform: 'translateY(0)', opacity: '1', filter: 'blur(0)' },
+      colors: {
+        text: {
+          DEFAULT: "var(--text)", // Using the text color variable from CSS
         },
+        background: {
+          DEFAULT: "var(--background)", // Using the background color variable from CSS
+        },
+        primary: {
+          DEFAULT: "var(--primary)", // Using the primary color variable from CSS
+        },
+        secondary: {
+          DEFAULT: "var(--secondary)", // Using the secondary color variable from CSS
+        },
+        accent: {
+          DEFAULT: "var(--accent)", // Using the accent color variable from CSS
+          hover: "var(--accent-hover)", // Darker accent for hover effects
+        },
+      },
+      keyframes: {
         blurUp: {
-          '0%': { filter: 'blur(6px)', opacity: '0' },
-          '100%': { filter: 'blur(0)', opacity: '1' },
+          "0%": { filter: "blur(10px)", opacity: "0" },
+          "100%": { filter: "blur(0)", opacity: "1" },
+        },
+        waveUp: {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        slideLeft: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" }, // Move by 50% of the width
+        },
+        slideRight: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
         },
       },
       animation: {
-        waveUp: 'waveUp 1.5s ease-out',
-        blurUp: 'blurUp 1s ease-out',
+        blurUp: "blurUp 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+        waveUp: "waveUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        slideLeft: "slideLeft 25s linear infinite", // Increased duration for smoother transition
+        slideRight: "slideRight 10s linear infinite",
       },
-      colors: {
-        'text': {
-          50: 'var(--text-50)',
-          100: 'var(--text-100)',
-          200: 'var(--text-200)',
-          300: 'var(--text-300)',
-          400: 'var(--text-400)',
-          500: 'var(--text-500)',
-          600: 'var(--text-600)',
-          700: 'var(--text-700)',
-          800: 'var(--text-800)',
-          900: 'var(--text-900)',
-          950: 'var(--text-950)',
-        },
-        'background': {
-          50: 'var(--background-50)',
-          100: 'var(--background-100)',
-          200: 'var(--background-200)',
-          300: 'var(--background-300)',
-          400: 'var(--background-400)',
-          500: 'var(--background-500)',
-          600: 'var(--background-600)',
-          700: 'var(--background-700)',
-          800: 'var(--background-800)',
-          900: 'var(--background-900)',
-          950: 'var(--background-950)',
-        },
-        'primary': {
-          50: 'var(--primary-50)',
-          100: 'var(--primary-100)',
-          200: 'var(--primary-200)',
-          300: 'var(--primary-300)',
-          400: 'var(--primary-400)',
-          500: 'var(--primary-500)',
-          600: 'var(--primary-600)',
-          700: 'var(--primary-700)',
-          800: 'var(--primary-800)',
-          900: 'var(--primary-900)',
-          950: 'var(--primary-950)',
-        },
-        'secondary': {
-          50: 'var(--secondary-50)',
-          100: 'var(--secondary-100)',
-          200: 'var(--secondary-200)',
-          300: 'var(--secondary-300)',
-          400: 'var(--secondary-400)',
-          500: 'var(--secondary-500)',
-          600: 'var(--secondary-600)',
-          700: 'var(--secondary-700)',
-          800: 'var(--secondary-800)',
-          900: 'var(--secondary-900)',
-          950: 'var(--secondary-950)',
-        },
-        'accent': {
-          50: 'var(--accent-50)',
-          100: 'var(--accent-100)',
-          200: 'var(--accent-200)',
-          300: 'var(--accent-300)',
-          400: 'var(--accent-400)',
-          500: 'var(--accent-500)',
-          600: 'var(--accent-600)',
-          700: 'var(--accent-700)',
-          800: 'var(--accent-800)',
-          900: 'var(--accent-900)',
-          950: 'var(--accent-950)',
-        },
-       },
-       
+    },
   },
   plugins: [],
-},
-}
+};

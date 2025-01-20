@@ -33,7 +33,7 @@ const ProjectCard: React.FC<ProjectProps> = ({
         {/* Left: Description */}
         <div className="text-left md:sticky md:top-16 self-start">
           {/* `top-16` ensures a gap before it becomes sticky */}
-          <h2 className="text-2xl font-bold text-black mb-4">{name}</h2>
+          <h2 className="text-2xl font-bold text-text mb-4">{name}</h2>
           <p className="text-gray-dark text-2xl leading-relaxed">
             {description}
           </p>
@@ -43,14 +43,14 @@ const ProjectCard: React.FC<ProjectProps> = ({
         <div className="space-y-4">
           {/* Project Link */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-dark">
+            <h3 className="text-sm font-semibold text-text">
               Project Link:
             </h3>
             <a
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 underline hover:text-blue-700"
+              className="text-secondary underline hover:text-primary"
             >
               {link}
             </a>
@@ -61,15 +61,15 @@ const ProjectCard: React.FC<ProjectProps> = ({
             <h3 className="text-sm font-semibold text-gray-dark">
               Project Name:
             </h3>
-            <p className="text-black">{name}</p>
+            <p className="text-text">{name}</p>
           </div>
 
           {/* Tech Used */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-dark">
+            <h3 className="text-sm font-semibold text-secondary">
               Technologies Used:
             </h3>
-            <ul className="list-disc ml-6 text-black">
+            <ul className="list-disc ml-6 text-text">
               {techUsed.map((tech, index) => (
                 <li key={index}>{tech}</li>
               ))}
@@ -78,10 +78,10 @@ const ProjectCard: React.FC<ProjectProps> = ({
 
           {/* Number of Pages */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-dark">
+            <h3 className="text-sm font-semibold text-secondary">
               Number of Pages:
             </h3>
-            <p className="text-black">{pages}</p>
+            <p className="text-text">{pages}</p>
           </div>
         </div>
       </div>
