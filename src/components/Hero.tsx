@@ -19,7 +19,7 @@ const Hero: React.FC = () => {
       </h1>
 
       {/* Subtitle */}
-      <p className="mt-4 text-xl font-light text-black">
+      <p className="mt-4 text-xl font-light text-text">
         {`Turning ideas into reality as a Full-Stack Developer passionate about creating interactive and efficient web solutions`
           .split(" ")
           .map((word, index) => (
@@ -37,9 +37,8 @@ const Hero: React.FC = () => {
       <div className="mt-12 flex space-x-6">
         <a href="#_" className="relative inline-block text-lg group">
           <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-primary rounded-lg group-hover:text-white">
-            <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-primary"></span>
-            <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>
-            <span className="relative">Contact Me</span>
+            <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-transparent backdrop-blur-sm"></span>
+            <span className="relative text-black">Contact Me</span>
           </span>
           <span
             className="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-text rounded-lg group-hover:mb-0 group-hover:mr-0"
@@ -49,9 +48,9 @@ const Hero: React.FC = () => {
 
         <a href="#_" className="relative inline-block text-lg group">
           <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-primary rounded-lg group-hover:text-white">
-            <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-orange-300"></span>
-            <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>
-            <span className="relative">Resume</span>
+            <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-transparent backdrop-blur-sm"></span>
+
+            <span className="relative text-black">Resume</span>
           </span>
           <span
             className="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-text rounded-lg group-hover:mb-0 group-hover:mr-0"

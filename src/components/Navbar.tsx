@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
     <div className="flex justify-center mx-auto">
       {/* Left Curve-Masked Div */}
       <div
-        className="w-[24px] h-[24px] shadow-lg transition-transform duration-300 bg-secondary"
+        className="w-[24px] h-[24px] shadow-lg transition-transform duration-300 bg-secondary/90 text-text backdrop-blur-md"
         style={{
           maskImage:
             "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M0 0 C100 30, 100 100, 100 100 L100 0 Z%22 fill=%22white%22/%3E%3C/svg%3E')",
@@ -48,8 +48,8 @@ const Navbar: React.FC = () => {
         }}
       ></div>
 
-      {/* Navbar */}
-      <nav className="w-[80%] p-1 flex items-center shadow-xl rounded-b-3xl border-b border-gray-300 transition-transform duration-300 bg-secondary text-text">
+      {/* Navbar with glass effect */}
+      <nav className="w-[78%] p-1 flex items-center shadow-xl rounded-b-3xl border-b border-gray-300 transition-transform duration-300 bg-transparent text-text backdrop-blur-md">
         {/* Icon */}
         <div className="h-12 w-12 rounded-full shadow-md bg-text"></div>
 
@@ -120,7 +120,7 @@ const Navbar: React.FC = () => {
 
       {/* Right Curve-Masked Div */}
       <div
-        className="w-[24px] h-[24px] shadow-lg transition-transform duration-300 bg-secondary"
+        className="w-[24px] h-[24px] shadow-lg transition-transform duration-300 bg-transparent text-text backdrop-blur-md"
         style={{
           maskImage:
             "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M100 0 C0 30, 0 100, 0 100 L0 0 Z%22 fill=%22white%22/%3E%3C/svg%3E')",

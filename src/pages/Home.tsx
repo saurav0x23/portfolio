@@ -5,7 +5,7 @@ import Skills from "../components/Skills";
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       <Hero />
       <Projects />
       <Skills />
