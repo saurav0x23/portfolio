@@ -1,7 +1,6 @@
 import React from "react";
-
+import image from "../assets/projects/project.png";
 interface ProjectProps {
-  image: string; // Project image URL
   description: string; // Short description of the project
   link: string; // Link to the project
   name: string; // Name of the project
@@ -10,7 +9,6 @@ interface ProjectProps {
 }
 
 const ProjectCard: React.FC<ProjectProps> = ({
-  image,
   description,
   link,
   name,
@@ -18,70 +16,84 @@ const ProjectCard: React.FC<ProjectProps> = ({
   pages,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center mx-auto p-6 w-full max-w-5xl bg-gray-light rounded-lg">
+    <div className="flex flex-col items-center justify-center mx-auto w-full bg-gray-light rounded-lg mb-24">
       {/* Project Photo */}
-      <div className="w-full flex justify-center mb-6">
-        <img
-          src={image}
-          alt={name}
-          className="w-full max-w-3xl object-cover rounded-lg shadow-md"
-        />
-      </div>
-
-      {/* Project Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full sticky">
-        {/* Left: Description */}
-        <div className="text-left md:sticky md:top-16 self-start">
-          {/* `top-16` ensures a gap before it becomes sticky */}
-          <h2 className="text-2xl font-bold text-text mb-4">{name}</h2>
-          <p className="text-gray-dark text-2xl leading-relaxed">
-            {description}
-          </p>
+      <div className="w-full flex justify-center mb-6 relative group cursor-pointer">
+        <div className="relative inline-block w-full">
+          <div className="relative z-10 overflow-hidden border-2 border-text rounded-2xl">
+            <div className="absolute inset-0 rounded-lg border-4"></div>
+            <img
+              src={image}
+              alt={name}
+              className="relative w-full object-cover rounded-lg"
+            />
+          </div>
+          <div
+            className="absolute bottom-0 right-0 w-full h-full -mb-2 -mr-2 bg-secondary rounded-2xl transition-all duration-200 ease-linear group-hover:mb-0 group-hover:mr-0 cursor-pointer"
+            data-rounded="rounded-2xl"
+          ></div>
         </div>
-
+      </div>
+      {/* Project Info */}
+      <div className="flex justify-between gap-12 w-full mb-16 p-2">
+        {/* Left: Description */}
+        <div className="text-left md:sticky md:top-40 self-start md:w-1/2">
+          <div className="flex flex-wrap items-baseline">
+            <h2 className="text-4xl font-bold text-text inline-flex items-baseline">
+              {name}
+              <span className="text-4xl font-bold mx-4">—</span>
+            </h2>
+            <p className="text-gray-dark text-4xl font-normal">{description}</p>
+          </div>
+        </div>
         {/* Right: Details */}
-        <div className="space-y-4">
+        <div className="space-y-6 w-[40%]">
           {/* Project Link */}
-          <div>
-            <h3 className="text-sm font-semibold text-text">
-              Project Link:
+          <div className="border-b pb-4">
+            <h3 className="text-lg font-semibold text-primary mb-2">
+              Project Link
             </h3>
             <a
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-secondary underline hover:text-primary"
+              className="text-secondary hover:text-primary transition-colors underline"
             >
               {link}
             </a>
           </div>
 
           {/* Project Name */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-dark">
-              Project Name:
+          <div className="border-b pb-4">
+            <h3 className="text-lg font-semibold text-primary mb-2">
+              Project Name
             </h3>
-            <p className="text-text">{name}</p>
+            <p className="text-text text-base">{name}</p>
           </div>
 
           {/* Tech Used */}
-          <div>
-            <h3 className="text-sm font-semibold text-secondary">
-              Technologies Used:
+          <div className="border-b pb-4">
+            <h3 className="text-lg font-semibold text-primary mb-4">
+              Technologies Used
             </h3>
-            <ul className="list-disc ml-6 text-text">
+            <div className="flex flex-wrap gap-3">
               {techUsed.map((tech, index) => (
-                <li key={index}>{tech}</li>
+                <span
+                  key={index}
+                  className="px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-700 shadow-sm"
+                >
+                  {tech}
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Number of Pages */}
           <div>
-            <h3 className="text-sm font-semibold text-secondary">
-              Number of Pages:
+            <h3 className="text-lg font-semibold text-primary mb-2">
+              Number of Pages
             </h3>
-            <p className="text-text">{pages}</p>
+            <p className="text-text text-base">{pages}</p>
           </div>
         </div>
       </div>
@@ -111,7 +123,7 @@ const Projects: React.FC = () => {
   ];
 
   return (
-    <div className="p-8">
+    <div className="">
       <h1 className="text-3xl font-bold text-center text-black mb-8">
         Projects
       </h1>

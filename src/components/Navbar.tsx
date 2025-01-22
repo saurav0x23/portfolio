@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 const Navbar: React.FC = () => {
   // State for dark mode
   const [darkMode, setDarkMode] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(50); // Scroll progress state
+  const [scrollProgress, setScrollProgress] = useState(80); // Scroll progress state
 
   // Toggle dark mode
   const toggleTheme = () => {
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
     const handleScroll = () => {
       const scrollHeight =
         document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / scrollHeight) * 50;
+      const progress = (window.scrollY / scrollHeight) * 80;
       setScrollProgress(progress);
     };
 

@@ -19,9 +19,18 @@ const Hero: React.FC = () => {
       </h1>
 
       {/* Subtitle */}
-      <p className="mt-4 text-xl font-medium text-text max-w-3xl mx-auto">
-        Transforming ideas into reality as a Full-Stack Developer who builds
-        interactive, scalable, and efficient web solutions.
+      <p className="mt-4 text-xl font-light text-black">
+        {`Turning ideas into reality as a Full-Stack Developer passionate about creating interactive and efficient web solutions`
+          .split(" ")
+          .map((word, index) => (
+            <span
+              key={index}
+              className="inline-block animate-waveUp"
+              style={{ animationDelay: `${index * 0.03}s` }} // Corrected template string usage
+            >
+              {word}&nbsp;
+            </span>
+          ))}
       </p>
 
       {/* Buttons - "Contact Me" and "Resume" */}

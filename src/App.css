@@ -19,6 +19,10 @@
   --accent-hover: #f68461; /* Softer Orange for Hover Effects */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Smooch Sans";
   font-weight: 600;
@@ -59,4 +63,3 @@ h5 {
 small {
   font-size: 0.75rem; /* 12px */
 }
-

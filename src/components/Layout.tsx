@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const pageHeight = document.documentElement.scrollHeight;
-      const triggerHeight = pageHeight * 0.4; // 10% of the page height
+      const triggerHeight = pageHeight * 0.2; // 10% of the page height
 
       // Show the navbar if scrolled past 10% of the page
       setShowNavbar(scrollPosition > triggerHeight);
