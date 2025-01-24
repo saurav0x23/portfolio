@@ -172,12 +172,12 @@ const Skills: React.FC = () => {
     <>
       {/* Heading above the Canvas */}
       <h2 className="relative w-fit mx-auto text-5xl group text-center animate-float">
-        <span className="relative z-10 block px-3 py-1 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-accent rounded-lg group-hover:text-white">
-          <span className="absolute inset-0 w-full h-full px-5 py-1 rounded-lg bg-accent"></span>
+        <span className="relative z-10 block px-3 py-1 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-text rounded-lg group-hover:text-white">
+          <span className="absolute inset-0 w-full h-full px-5 py-1 rounded-lg bg-transparent backdrop-blur-lg"></span>
           <span className="relative">My Skills</span>
         </span>
         <span
-          className="absolute bottom-0 right-0 w-full h-full -mb-1 -mr-1 transition-all duration-200 ease-linear bg-text rounded-lg group-hover:mb-0 group-hover:mr-0"
+          className="absolute bottom-0 right-0 w-full h-full -mb-2 -mr-2 transition-all duration-200 ease-linear bg-accent rounded-lg group-hover:mb-0 group-hover:mr-0"
           data-rounded="rounded-lg"
         ></span>
       </h2>

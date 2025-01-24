@@ -16,11 +16,11 @@ const ProjectCard: React.FC<ProjectProps> = ({
   pages,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center mx-auto w-full bg-gray-light rounded-lg mb-24">
+    <div className="flex flex-col items-center justify-center mx-auto w-3/4 bg-gray-light rounded-lg">
       {/* Project Photo */}
       <div className="w-full flex justify-center mb-6 relative group cursor-pointer">
         <div className="relative inline-block w-full">
-          <div className="relative z-10 overflow-hidden border-2 border-text rounded-2xl">
+          <div className="relative z-10 overflow-hidden border-2 border-accent rounded-2xl">
             <div className="absolute inset-0 rounded-lg border-4"></div>
             <img
               src={image}
@@ -29,7 +29,7 @@ const ProjectCard: React.FC<ProjectProps> = ({
             />
           </div>
           <div
-            className="absolute bottom-0 right-0 w-full h-full -mb-2 -mr-2 bg-secondary rounded-2xl transition-all duration-200 ease-linear group-hover:mb-0 group-hover:mr-0 cursor-pointer"
+            className="absolute bottom-0 right-0 w-full h-full -mb-2 -mr-2 bg-secondary border-2 border-text rounded-2xl transition-all duration-200 ease-linear group-hover:mb-0 group-hover:mr-0 cursor-pointer"
             data-rounded="rounded-2xl"
           ></div>
         </div>
@@ -125,12 +125,12 @@ const Projects: React.FC = () => {
   return (
     <div className="flex flex-col items-center gap-6">
       <h2 className="relative inline-block text-5xl group text-center">
-        <span className="relative z-10 block px-3 py-1 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-accent rounded-lg group-hover:text-white">
-          <span className="absolute inset-0 w-full h-full px-5 py-1 rounded-lg bg-accent"></span>
+        <span className="relative z-10 block px-3 py-1 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-text rounded-lg group-hover:text-white">
+          <span className="absolute inset-0 w-full h-full px-5 py-1 rounded-lg bg-transparent backdrop-blur-lg"></span>
           <span className="relative">Projects</span>
         </span>
         <span
-          className="absolute bottom-0 right-0 w-full h-full -mb-1 -mr-1 transition-all duration-200 ease-linear bg-text rounded-lg group-hover:mb-0 group-hover:mr-0"
+          className="absolute bottom-0 right-0 w-full h-full -mb-2 -mr-2 transition-all duration-200 ease-linear bg-accent rounded-lg group-hover:mb-0 group-hover:mr-0"
           data-rounded="rounded-lg"
         ></span>
       </h2>

@@ -36,9 +36,11 @@ const Hero: React.FC = () => {
       {/* Buttons - "Contact Me" and "Resume" */}
       <div className="mt-12 flex space-x-6">
         <a href="#_" className="relative inline-block text-lg group">
-          <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-primary rounded-lg group-hover:text-white">
+          <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-primary rounded-lg ">
             <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-transparent backdrop-blur-sm"></span>
-            <span className="relative text-black">Contact Me</span>
+            <span className="relative text-white group-hover:text-accent">
+              Contact Me
+            </span>
           </span>
           <span
             className="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-text rounded-lg group-hover:mb-0 group-hover:mr-0"
@@ -47,10 +49,12 @@ const Hero: React.FC = () => {
         </a>
 
         <a href="#_" className="relative inline-block text-lg group">
-          <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-primary rounded-lg group-hover:text-white">
+          <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-primary rounded-lg group-hover:text-accent">
             <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-transparent backdrop-blur-sm"></span>
 
-            <span className="relative text-black">Resume</span>
+            <span className="relative text-white group-hover:text-accent">
+              Resume
+            </span>
           </span>
           <span
             className="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-text rounded-lg group-hover:mb-0 group-hover:mr-0"

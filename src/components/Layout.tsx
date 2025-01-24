@@ -40,7 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Optional Footer */}
       <footer className="w-[80%] mx-auto py-4 text-center text-gray-500">
-        © {new Date().getFullYear()} My T-Rex Portfolio
+        © {new Date().getFullYear()} Saurav Pandey
       </footer>
     </div>
   );
