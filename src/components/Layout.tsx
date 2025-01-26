@@ -1,46 +1,71 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import Navbar from "./Navbar";
 
 type LayoutProps = {
-  children: React.ReactNode; // Accepts the content of individual pages
+  children: React.ReactNode;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const [showNavbar, setShowNavbar] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const pageHeight = document.documentElement.scrollHeight;
-      const triggerHeight = pageHeight * 0.2; // 10% of the page height
+  const navbarRef = useRef<HTMLDivElement>(null);
+  const scrollTimeout = useRef<number>();
+  const lastScrollPos = useRef(0);
 
-      // Show the navbar if scrolled past 10% of the page
-      setShowNavbar(scrollPosition > triggerHeight);
-    };
+  const handleScroll = useCallback(() => {
+    if (scrollTimeout.current) {
+      cancelAnimationFrame(scrollTimeout.current);
+    }
 
-    // Add the scroll event listener
-    window.addEventListener("scroll", handleScroll);
+    scrollTimeout.current = requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      const triggerHeight = document.documentElement.scrollHeight * 0.2;
+      const scrollingDown = scrollY > lastScrollPos.current;
 
-    // Clean up the event listener on unmount
-    return () => window.removeEventListener("scroll", handleScroll);
+      // Only update if scroll direction changes significantly
+      if (Math.abs(scrollY - lastScrollPos.current) > 50) {
+        const shouldShow = scrollY > triggerHeight && !scrollingDown;
+        navbarRef.current?.classList.toggle("navbar-visible", shouldShow);
+        navbarRef.current?.classList.toggle("navbar-hidden", !shouldShow);
+        lastScrollPos.current = scrollY;
+      }
+    });
   }, []);
 
+  useEffect(() => {
+    // Add smooth scroll behavior to the whole app
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.documentElement.style.scrollBehavior = "auto";
+      if (scrollTimeout.current) cancelAnimationFrame(scrollTimeout.current);
+    };
+  }, [handleScroll]);
+
   return (
-    <div>
-      {/* Navbar */}
+    <div className="min-h-screen bg-gradient-to-br from-sky-900 via-purple-900 to-indigo-900 bg-fixed">
+      {/* Navbar with glass effect */}
       <div
-        className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 ${
-          showNavbar ? "translate-y-0" : "-translate-y-full"
-        }`}
+        ref={navbarRef}
+        className="fixed top-0 inset-x-0 z-50 bg-sky-900/20 backdrop-blur-lg border-b border-sky-400/20"
       >
         <Navbar />
       </div>
 
-      {/* Main Content */}
-      <main className="w-[80%] mx-auto mt-8">{children}</main>
+      {/* Content Area */}
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 pt-28">
+        {children}
+      </main>
 
-      {/* Optional Footer */}
-      <footer className="w-[80%] mx-auto py-4 text-center text-gray-500">
-        © {new Date().getFullYear()} Saurav Pandey
+      {/* Footer */}
+      <footer className="bg-sky-900/20 backdrop-blur-lg border-t border-sky-400/20 mt-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <p className="text-center text-sm text-gray-300">
+            © {new Date().getFullYear()} Saurav Pandey
+          </p>
+        </div>
       </footer>
     </div>
   );

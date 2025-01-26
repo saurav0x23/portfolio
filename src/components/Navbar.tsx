@@ -1,133 +1,126 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Navbar: React.FC = () => {
-  // State for dark mode
   const [darkMode, setDarkMode] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(80); // Scroll progress state
+  const [scrollProgress, setScrollProgress] = useState(5);
+  const name = "Saurav Pandey".split("");
 
-  // Toggle dark mode
+  // Dark mode toggle
   const toggleTheme = () => {
     const newTheme = !darkMode ? "dark" : "light";
     setDarkMode(!darkMode);
-    document.documentElement.setAttribute("data-theme", newTheme);
+    document.documentElement.classList.toggle("dark", !darkMode);
     localStorage.setItem("theme", newTheme);
   };
 
-  // Sync dark mode with localStorage
+  // Scroll progress handler
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light"; // Default to light mode
-    setDarkMode(savedTheme === "dark");
-    document.documentElement.setAttribute("data-theme", savedTheme);
-
-    // Scroll progress listener
     const handleScroll = () => {
       const scrollHeight =
         document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / scrollHeight) * 80;
-      setScrollProgress(progress);
+      const progress = (window.scrollY / scrollHeight) * 100;
+      setScrollProgress(progress + 5);
     };
-
     window.addEventListener("scroll", handleScroll);
-
-    // Clean up event listener
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <div className="flex justify-center mx-auto">
-      {/* Left Curve-Masked Div */}
-      <div
-        className="w-[24px] h-[24px] shadow-lg transition-transform duration-300 bg-secondary/90 text-text backdrop-blur-md"
-        style={{
-          maskImage:
-            "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M0 0 C100 30, 100 100, 100 100 L100 0 Z%22 fill=%22white%22/%3E%3C/svg%3E')",
-          WebkitMaskImage:
-            "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M0 0 C100 50, 80 50, 100 100 L100 0 Z%22 fill=%22white%22/%3E%3C/svg%3E')",
-        }}
-      ></div>
+    <div className="fixed top-0 w-full z-50 flex justify-center px-4 sm:px-8">
+      <nav className="flex justify-between items-center px-6 sm:px-8 py-3 sm:py-4 backdrop-blur-xl bg-sky-900/20 border border-sky-400/20 rounded-2xl m-2 sm:m-3 transition-all duration-300 hover:shadow-cosmic-glow max-w-7xl w-2/3">
+        {/* Stellar particles */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-0.5 h-0.5 bg-purple-400/30 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [1, 1.5, 1],
+              }}
+              transition={{
+                duration: 2 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
 
-      {/* Navbar with glass effect */}
-      <nav className="w-[78%] p-1 flex items-center shadow-xl rounded-b-3xl border-b border-gray-300 transition-transform duration-300 bg-transparent text-text backdrop-blur-md">
-        {/* Icon */}
-        <div className="h-12 w-12 rounded-full shadow-md bg-text"></div>
+        {/* Left Section */}
+        <motion.div
+          className="flex items-center gap-4"
+          whileHover={{ scale: 1.02 }}
+        >
+          <motion.div
+            className="h-10 w-10 sm:h-12 sm:w-12 rounded-full relative overflow-hidden group"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-sky-400 to-purple-600 opacity-30 group-hover:opacity-50 transition-opacity" />
+            <div className="absolute inset-0 backdrop-blur-sm" />
+          </motion.div>
 
-        {/* Scroll Progress Bar */}
-        <div
-          className="h-1 bg-gray-300 rounded-md"
-          style={{
-            width: `${scrollProgress}px`, // Dynamic scroll progress width
-            transition: "width 0.1s ease-out",
-            backgroundColor: "var(--text)", // Adjust this to match your desired color
-            maxWidth: "400px", // Maximum width for the progress bar (you can adjust this value)
-            margin: "0 25px", // Add space around the progress bar
-          }}
-        ></div>
+          <div className="flex overflow-hidden">
+            {name.map((char, i) => (
+              <motion.span
+                key={i}
+                className="text-lg sm:text-xl font-bold bg-gradient-to-r from-sky-300 to-purple-400 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, type: "spring", stiffness: 200 }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </div>
+        </motion.div>
 
-        {/* Navbar Links */}
-        <ul className="flex items-center justify-center ml-auto gap-12 px-8">
-          <li>
-            <a
-              href="#skills"
-              className="text-lg font-medium transition-colors duration-300 hover:text-accent-700"
+        {/* Centered Progress Bar */}
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-9 h-1 w-2/3 sm:w-1/2">
+          <div className="h-full bg-sky-900/30 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-sky-300 to-purple-400"
+              style={{ width: `${scrollProgress}%` }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            />
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          <div className="hidden sm:flex gap-4 sm:gap-6">
+            <motion.a
+              href="#projects"
+              className="text-sm sm:text-base text-gray-300 hover:text-sky-300 transition-all relative"
+              whileHover={{ y: -2 }}
             >
               Projects
-            </a>
-          </li>
-          <li>
-            <a
-              href="#projects"
-              className="text-lg font-medium transition-colors duration-300 hover:text-accent-700"
+              <motion.div
+                className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-sky-400 to-transparent"
+                whileHover={{ width: "100%" }}
+              />
+            </motion.a>
+            <motion.a
+              href="#skills"
+              className="text-sm sm:text-base text-gray-300 hover:text-purple-300 transition-all relative"
+              whileHover={{ y: -2 }}
             >
               Skills
-            </a>
-          </li>
-
-          {/* Theme Toggle */}
-          <li className="cursor-pointer">
-            <div
-              onClick={toggleTheme}
-              className="relative w-16 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center p-1 transition-all duration-300"
-            >
-              {/* Circle slider */}
-              <div
-                className={`absolute w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300 ${
-                  darkMode
-                    ? "transform translate-x-8"
-                    : "transform translate-x-0"
-                }`}
-              ></div>
-              {/* Icons */}
-              <span
-                className={`absolute pt-0.5 left-1 font-medium text-gray-700 transition-all duration-300 ${
-                  darkMode ? "text-gray-400 text-sm" : "text-yellow-500 text-lg"
-                }`}
-              >
-                ☀️
-              </span>
-              <span
-                className={`absolute right-1 font-medium text-gray-700 transition-all duration-300 ${
-                  darkMode ? "text-blue-400 text-lg" : "text-gray-400 text-sm"
-                }`}
-              >
-                🌙
-              </span>
-            </div>
-          </li>
-        </ul>
+              <motion.div
+                className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-purple-400 to-transparent"
+                whileHover={{ width: "100%" }}
+              />
+            </motion.a>
+          </div>
+        </div>
       </nav>
-
-      {/* Right Curve-Masked Div */}
-      <div
-        className="w-[24px] h-[24px] shadow-lg transition-transform duration-300 bg-transparent text-text backdrop-blur-md"
-        style={{
-          maskImage:
-            "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M100 0 C0 30, 0 100, 0 100 L0 0 Z%22 fill=%22white%22/%3E%3C/svg%3E')",
-          WebkitMaskImage:
-            "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M100 0 C0 50, 20 50, 0 100 L0 0 Z%22 fill=%22white%22/%3E%3C/svg%3E')",
-        }}
-      ></div>
     </div>
   );
 };

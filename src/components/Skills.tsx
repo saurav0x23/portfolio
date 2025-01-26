@@ -1,247 +1,185 @@
-import React, { useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Physics, useSphere } from "@react-three/cannon";
-import { OrbitControls, Stars, Html } from "@react-three/drei";
+import { Physics, useSphere, useBox } from "@react-three/cannon";
+import { Stars, Text } from "@react-three/drei";
 import * as THREE from "three";
 
-const Atmosphere: React.FC<{ size: number; color: string }> = ({
-  size,
-  color,
-}) => {
-  const geometry = useMemo(
-    () => new THREE.SphereGeometry(size * 1.2, 16, 16),
-    [size]
-  );
-  const material = useMemo(
-    () =>
-      new THREE.MeshPhongMaterial({
-        color,
-        transparent: true,
-        opacity: 0.1,
-        side: THREE.BackSide,
-      }),
-    [color]
-  );
+const techConfigs = [
+  { name: "JavaScript", color: "#F7DF1E", size: 1.8 },
+  { name: "TypeScript", color: "#3178C6", size: 1.6 },
+  { name: "Node.js", color: "#68A063", size: 1.4 },
+  { name: "React", color: "#61DAFB", size: 2.0 },
+  { name: "Next.js", color: "#000000", size: 1.8 },
+  { name: "Three.js", color: "#049EF4", size: 1.3 },
+  { name: "GitHub", color: "#181717", size: 0.9 },
+  { name: "Git", color: "#F05032", size: 1.1 },
+  { name: "Tailwind", color: "#38B2AC", size: 1.3 },
+  { name: "VSCode", color: "#007ACC", size: 1.0 },
+  { name: "Framer", color: "#0055FF", size: 1.0 },
+];
 
-  return <mesh geometry={geometry} material={material} />;
-};
+const CENTER_FORCE = 1.2;
+const REPEL_FORCE = 120;
+const REPEL_RADIUS = 9;
+const DAMPING = 0.85;
 
-const TechBubble: React.FC<{
-  position: [number, number];
-  cursorPosition: [number, number];
-  size: number;
-  boundarySize: number;
-  techConfig: any;
-}> = ({ position, cursorPosition, size, boundarySize, techConfig }) => {
-  const [sphereRef, api] = useSphere(() => ({
+interface BubbleProps {
+  position: [number, number, number];
+  tech: (typeof techConfigs)[number];
+  cursor: React.MutableRefObject<THREE.Vector2>;
+}
+
+const Bubble = ({ position, tech, cursor }: BubbleProps) => {
+  const [ref, api] = useSphere(() => ({
     mass: 1,
-    position: [...position, 0],
-    args: [size],
-    linearDamping: 0.95,
-    angularDamping: 0.95,
+    position,
+    args: [tech.size],
+    material: { restitution: 0.75 },
+    linearDamping: DAMPING,
   }));
 
-  const sphereGeometry = useMemo(
-    () => new THREE.SphereGeometry(size, 16, 16),
-    [size]
-  );
-  const sphereMaterial = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: techConfig.color,
-        emissive: techConfig.emissive,
-        roughness: 0.3,
-        metalness: 0.7,
-      }),
-    [techConfig]
-  );
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
 
-  useFrame(() => {
-    if (sphereRef.current) {
-      sphereRef.current.rotation.y += 0.002;
+    // Pulsing animation
+    const scale = 1 + Math.sin(clock.elapsedTime * 2) * 0.1;
+    ref.current.scale.set(scale, scale, scale);
+
+    const pos = new THREE.Vector3();
+    ref.current.getWorldPosition(pos);
+
+    // Center attraction
+    const toCenter = new THREE.Vector3().sub(pos).multiplyScalar(CENTER_FORCE);
+
+    // Cursor repulsion
+    const cursorPos = new THREE.Vector3(cursor.current.x, cursor.current.y, 0);
+    const toCursor = pos.clone().sub(cursorPos);
+    const distance = toCursor.length();
+
+    if (distance < REPEL_RADIUS) {
+      const strength = (1 - distance / REPEL_RADIUS) * REPEL_FORCE;
+      const repelForce = toCursor.normalize().multiplyScalar(strength);
+      api.applyForce(repelForce.toArray(), [0, 0, 0]);
     }
+
+    api.applyForce(toCenter.toArray(), [0, 0, 0]);
   });
 
+  return (
+    <mesh ref={ref} castShadow receiveShadow>
+      <sphereGeometry args={[tech.size, 32, 32]} />
+      <meshStandardMaterial
+        color={tech.color}
+        metalness={0.4}
+        roughness={0.15}
+        emissive={tech.color}
+        emissiveIntensity={1.5}
+        transparent
+        opacity={0.95}
+      />
+      <Text
+        position={[0, 0, tech.size + 0.3]}
+        fontSize={0.5}
+        color="white"
+        outlineColor="black"
+        outlineWidth={0.02}
+        anchorX="center"
+        anchorY="middle"
+      >
+        {tech.name}
+      </Text>
+    </mesh>
+  );
+};
+
+const Skills = () => {
+  const cursor = useRef(new THREE.Vector2(0, 0));
+
+  const bubbles = useMemo(() => {
+    const radius = 10;
+    const angleStep = (Math.PI * 2) / techConfigs.length;
+    return techConfigs.map((tech, i) => ({
+      tech,
+      position: [
+        Math.cos(angleStep * i) * radius,
+        Math.sin(angleStep * i) * radius,
+        0,
+      ] as [number, number, number],
+    }));
+  }, []);
+
   useEffect(() => {
-    let frameId: number;
-    const animate = () => {
-      api.position.subscribe(([x, y]) => {
-        const direction = new THREE.Vector2(
-          cursorPosition[0] - x,
-          cursorPosition[1] - y
-        );
-        const distance = direction.length();
-        direction.normalize();
-
-        const attractionStrength = Math.min(distance / 20, 0.1);
-        const attractionForceX = direction.x * attractionStrength;
-        const attractionForceY = direction.y * attractionStrength;
-
-        const correctionForceX =
-          x > boundarySize ? -0.1 : x < -boundarySize ? 0.1 : 0;
-        const correctionForceY =
-          y > boundarySize ? -0.1 : y < -boundarySize ? 0.1 : 0;
-
-        api.applyForce(
-          [
-            attractionForceX + correctionForceX,
-            attractionForceY + correctionForceY,
-            0,
-          ],
-          [0, 0, 0]
-        );
-      });
-
-      frameId = requestAnimationFrame(animate);
+    const onMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = -(e.clientY / window.innerHeight - 0.5) * 30;
+      cursor.current.set(x, y);
     };
-
-    animate();
-    return () => cancelAnimationFrame(frameId);
-  }, [api, cursorPosition, boundarySize]);
-
-  return (
-    <group ref={sphereRef as React.RefObject<THREE.Group>}>
-      {/* Sphere for the bubble */}
-      <mesh geometry={sphereGeometry} material={sphereMaterial} />
-      {/* Atmosphere around the bubble */}
-      <Atmosphere size={size} color={techConfig.color} />
-      {/* Html for the logo */}
-      <Html
-        position={[0, 0, 0]} // Adjust to the sphere's position
-        center
-        style={{
-          pointerEvents: "none", // To prevent interfering with mouse events
-          transform: "translate(-50%, -50%)", // Center the logo
-        }}
-      >
-        <div className="w-12 h-12 flex items-center justify-center opacity-0 transition-opacity duration-500 hover:opacity-100">
-          <img
-            src={techConfig.logoPath}
-            alt={techConfig.name}
-            className="w-8 h-8 object-contain"
-          />
-        </div>
-      </Html>
-    </group>
-  );
-};
-
-const Skills: React.FC = () => {
-  const techConfigs = useMemo(
-    () => [
-      {
-        name: "JavaScript",
-        color: "#F7DF1E",
-        emissive: "#2E2E2C",
-        logoPath: "",
-        size: 0.8,
-      },
-      {
-        name: "React",
-        color: "#61DAFB",
-        emissive: "#124E5C",
-        logoPath: "../assets/icons/react-2.svg",
-        size: 0.75,
-      },
-      // ... rest of the tech configs
-    ],
-    []
-  );
-
-  const [cursorPosition, setCursorPosition] = useState<[number, number]>([
-    0, 0,
-  ]);
-  const boundarySize = 5;
-
-  const handleMouseMove = useMemo(
-    () =>
-      throttle((event: MouseEvent) => {
-        const x = (event.clientX / window.innerWidth) * 2 - 1;
-        const y = -(event.clientY / window.innerHeight) * 2 + 1;
-        setCursorPosition([x * boundarySize, y * boundarySize]);
-      }, 16),
-    [boundarySize]
-  );
-
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [handleMouseMove]);
+    window.addEventListener("mousemove", onMouseMove);
+    return () => window.removeEventListener("mousemove", onMouseMove);
+  }, []);
 
   return (
-    <>
-      {/* Heading above the Canvas */}
-      <h2 className="relative w-fit mx-auto text-5xl group text-center animate-float">
-        <span className="relative z-10 block px-3 py-1 overflow-hidden font-medium leading-tight text-text transition-colors duration-300 ease-out border-2 border-text rounded-lg group-hover:text-white">
-          <span className="absolute inset-0 w-full h-full px-5 py-1 rounded-lg bg-transparent backdrop-blur-lg"></span>
-          <span className="relative">My Skills</span>
-        </span>
-        <span
-          className="absolute bottom-0 right-0 w-full h-full -mb-2 -mr-2 transition-all duration-200 ease-linear bg-accent rounded-lg group-hover:mb-0 group-hover:mr-0"
-          data-rounded="rounded-lg"
-        ></span>
+    <div className="backdrop-blur-lg bg-sky-900/20 rounded-xl p-6 border border-sky-400/20 shadow-xl">
+      <h2 className="text-4xl lg:text-5xl font-bold text-center mb-12 lg:mb-16 bg-gradient-to-r from-sky-300 to-purple-400 bg-clip-text text-transparent">
+        Skills
       </h2>
-      <section
-        id="skills"
-        className="h-screen bg-black rounded-xl relative flex flex-col items-center justify-center text-white"
-      >
-        {/* Canvas below the heading */}
-        <div className="w-full h-full flex items-center justify-center">
-          <Canvas
-            shadows={false}
-            camera={{ position: [0, 0, 10], fov: 50 }}
-            performance={{ min: 0.9 }}
-          >
-            <Stars
-              radius={100}
-              depth={50}
-              count={3000}
-              factor={4}
-              saturation={0}
-              fade
-              speed={3}
-            />
-            <ambientLight intensity={0.4} />
-            <pointLight position={[0, 0, 10]} intensity={1.5} />
-            <Physics
-              gravity={[0, 0, 0]}
-              defaultContactMaterial={{
-                friction: 0,
-                restitution: 0.5,
-              }}
-            >
-              {techConfigs.map((tech, index) => {
-                const x = (Math.random() - 0.5) * boundarySize;
-                const y = (Math.random() - 0.5) * boundarySize;
-                return (
-                  <TechBubble
-                    key={index}
-                    position={[x, y]}
-                    cursorPosition={cursorPosition}
-                    size={tech.size}
-                    boundarySize={boundarySize}
-                    techConfig={tech}
-                  />
-                );
-              })}
-            </Physics>
-            <OrbitControls enableZoom={false} enableRotate={false} />
-          </Canvas>
-        </div>
-      </section>
-    </>
+      <div className="relative h-screen w-full bg-gradient-to-b from-sky-900 to-purple-900 overflow-hidden">
+        <Canvas camera={{ position: [0, 0, 35], fov: 45 }}>
+          <ambientLight intensity={0.75} color="#4f46e5" />
+          <pointLight
+            position={[10, 10, 10]}
+            intensity={2.5}
+            color="#818cf8"
+            castShadow
+          />
+          <spotLight
+            position={[0, 0, 50]}
+            angle={0.3}
+            penumbra={1}
+            intensity={3}
+            color="#60a5fa"
+            castShadow
+          />
+
+          <Physics gravity={[0, 0, 0]} iterations={25}>
+            <BoxBoundary position={[0, 25, 0]} args={[50, 2, 50]} />
+            <BoxBoundary position={[0, -25, 0]} args={[50, 2, 50]} />
+            <BoxBoundary position={[25, 0, 0]} args={[2, 50, 50]} />
+            <BoxBoundary position={[-25, 0, 0]} args={[2, 50, 50]} />
+
+            {bubbles.map((bubble) => (
+              <Bubble
+                key={bubble.tech.name}
+                position={bubble.position}
+                tech={bubble.tech}
+                cursor={cursor}
+              />
+            ))}
+          </Physics>
+
+          <Stars
+            radius={300}
+            depth={100}
+            count={3000}
+            factor={6}
+            saturation={0}
+            fade
+            speed={1}
+          />
+        </Canvas>
+      </div>
+    </div>
   );
 };
 
-function throttle<T extends Function>(func: T, limit: number) {
-  let inThrottle: boolean;
-  return function (this: any, ...args: any[]) {
-    if (!inThrottle) {
-      func.apply(this, args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
-}
+const BoxBoundary = ({ position, args }: any) => {
+  const [ref] = useBox(() => ({
+    type: "Static",
+    position,
+    args,
+    material: { restitution: 0.85 },
+  }));
+  return <mesh ref={ref} visible={false} />;
+};
 
 export default Skills;

@@ -33,7 +33,6 @@ body {
 .name {
   font-family: "Yellowtail", serif;
   font-weight: 100;
-  color: var(--accent);
 }
 
 html {
@@ -62,4 +61,32 @@ h5 {
 
 small {
   font-size: 0.75rem; /* 12px */
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.loader-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.loader-float {
+  animation: float 3s ease-in-out infinite;
 }
