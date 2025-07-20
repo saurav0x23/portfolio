@@ -4,7 +4,7 @@
 :root[data-theme="light"] {
   --text: #141414; /* Night - Primary Text */
   --background: #fffbdb; /* Light Yellow - Background */
-  --primary: #7776bc; /* Glaucous - Primary Color */
+  --primary: #141328; /* Glaucous - Primary Color */
   --secondary: #cdc7e5; /* Periwinkle - Secondary Color */
   --accent: #ff5722; /* Softer Scarlet - Accent Color */
   --accent-hover: #ff7043; /* Softer Orange for Hover Effects */
@@ -13,7 +13,7 @@
 :root[data-theme="dark"] {
   --text: #fffbdb; /* Light Yellow - Primary Text */
   --background: #141414; /* Night - Background */
-  --primary: #7776bc; /* Glaucous - Primary Color */
+  --primary: #14141f; /* Glaucous - Primary Color */
   --secondary: #978fb7; /* Periwinkle - Secondary Color */
   --accent: #ff5722; /* Softer Scarlet - Accent Color */
   --accent-hover: #f68461; /* Softer Orange for Hover Effects */
@@ -21,6 +21,9 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -31,7 +34,7 @@ body {
 }
 
 .name {
-  font-family: "Yellowtail", serif;
+  font-family: "Neonderthaw", serif;
   font-weight: 100;
 }
 
@@ -89,4 +92,13 @@ small {
 
 .loader-float {
   animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+  }
 }

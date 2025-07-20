@@ -1,185 +1,120 @@
-import { useRef, useEffect, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Physics, useSphere, useBox } from "@react-three/cannon";
-import { Stars, Text } from "@react-three/drei";
-import * as THREE from "three";
+import { motion } from "framer-motion";
 
 const techConfigs = [
-  { name: "JavaScript", color: "#F7DF1E", size: 1.8 },
-  { name: "TypeScript", color: "#3178C6", size: 1.6 },
-  { name: "Node.js", color: "#68A063", size: 1.4 },
-  { name: "React", color: "#61DAFB", size: 2.0 },
-  { name: "Next.js", color: "#000000", size: 1.8 },
-  { name: "Three.js", color: "#049EF4", size: 1.3 },
-  { name: "GitHub", color: "#181717", size: 0.9 },
-  { name: "Git", color: "#F05032", size: 1.1 },
-  { name: "Tailwind", color: "#38B2AC", size: 1.3 },
-  { name: "VSCode", color: "#007ACC", size: 1.0 },
-  { name: "Framer", color: "#0055FF", size: 1.0 },
+  { name: "JavaScript", color: "#F7DF1E", icon: "JS" },
+  { name: "TypeScript", color: "#3178C6", icon: "TS" },
+  { name: "React", color: "#61DAFB", icon: "⚛️" },
+  { name: "Next.js", color: "#000000", icon: "▲" },
+  { name: "Tailwind CSS", color: "#38B2AC", icon: "💨" },
+  { name: "shadcn/ui", color: "#1572B6", icon: "🎨" },
+  { name: "MUI", color: "#007FFF", icon: "📦" },
+  { name: "Node.js", color: "#68A063", icon: "⬢" },
+  { name: "Express.js", color: "#000000", icon: "🚀" },
+  { name: "MongoDB", color: "#47A248", icon: "🍃" },
+  { name: "Firebase", color: "#FFCA28", icon: "🔥" },
+  { name: "Supabase", color: "#2496ED", icon: "🌳" },
+  { name: "Vite", color: "#646CFF", icon: "⚡" },
+  { name: "GitHub", color: "#211F1F", icon: "👾" },
+  { name: "Git", color: "#F05032", icon: "🔧" },
+  { name: "Vercel", color: "#000000", icon: "🌐" },
+  { name: "Netlify", color: "#00C7B7", icon: "🌐" },
+  { name: "n8n", color: "#EF476F", icon: "🔁" },
+  { name: "AI Integration", color: "#7F00FF", icon: "🧠" },
+  { name: "PWA", color: "#FF3E00", icon: "📱" },
 ];
 
-const CENTER_FORCE = 1.2;
-const REPEL_FORCE = 120;
-const REPEL_RADIUS = 9;
-const DAMPING = 0.85;
-
-interface BubbleProps {
-  position: [number, number, number];
-  tech: (typeof techConfigs)[number];
-  cursor: React.MutableRefObject<THREE.Vector2>;
-}
-
-const Bubble = ({ position, tech, cursor }: BubbleProps) => {
-  const [ref, api] = useSphere(() => ({
-    mass: 1,
-    position,
-    args: [tech.size],
-    material: { restitution: 0.75 },
-    linearDamping: DAMPING,
-  }));
-
-  useFrame(({ clock }) => {
-    if (!ref.current) return;
-
-    // Pulsing animation
-    const scale = 1 + Math.sin(clock.elapsedTime * 2) * 0.1;
-    ref.current.scale.set(scale, scale, scale);
-
-    const pos = new THREE.Vector3();
-    ref.current.getWorldPosition(pos);
-
-    // Center attraction
-    const toCenter = new THREE.Vector3().sub(pos).multiplyScalar(CENTER_FORCE);
-
-    // Cursor repulsion
-    const cursorPos = new THREE.Vector3(cursor.current.x, cursor.current.y, 0);
-    const toCursor = pos.clone().sub(cursorPos);
-    const distance = toCursor.length();
-
-    if (distance < REPEL_RADIUS) {
-      const strength = (1 - distance / REPEL_RADIUS) * REPEL_FORCE;
-      const repelForce = toCursor.normalize().multiplyScalar(strength);
-      api.applyForce(repelForce.toArray(), [0, 0, 0]);
-    }
-
-    api.applyForce(toCenter.toArray(), [0, 0, 0]);
-  });
-
+const Skills: React.FC = () => {
   return (
-    <mesh ref={ref} castShadow receiveShadow>
-      <sphereGeometry args={[tech.size, 32, 32]} />
-      <meshStandardMaterial
-        color={tech.color}
-        metalness={0.4}
-        roughness={0.15}
-        emissive={tech.color}
-        emissiveIntensity={1.5}
-        transparent
-        opacity={0.95}
-      />
-      <Text
-        position={[0, 0, tech.size + 0.3]}
-        fontSize={0.5}
-        color="white"
-        outlineColor="black"
-        outlineWidth={0.02}
-        anchorX="center"
-        anchorY="middle"
-      >
-        {tech.name}
-      </Text>
-    </mesh>
-  );
-};
-
-const Skills = () => {
-  const cursor = useRef(new THREE.Vector2(0, 0));
-
-  const bubbles = useMemo(() => {
-    const radius = 10;
-    const angleStep = (Math.PI * 2) / techConfigs.length;
-    return techConfigs.map((tech, i) => ({
-      tech,
-      position: [
-        Math.cos(angleStep * i) * radius,
-        Math.sin(angleStep * i) * radius,
-        0,
-      ] as [number, number, number],
-    }));
-  }, []);
-
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 30;
-      const y = -(e.clientY / window.innerHeight - 0.5) * 30;
-      cursor.current.set(x, y);
-    };
-    window.addEventListener("mousemove", onMouseMove);
-    return () => window.removeEventListener("mousemove", onMouseMove);
-  }, []);
-
-  return (
-    <div className="backdrop-blur-lg bg-sky-900/20 rounded-xl p-6 border border-sky-400/20 shadow-xl">
-      <h2 className="text-4xl lg:text-5xl font-bold text-center mb-12 lg:mb-16 bg-gradient-to-r from-sky-300 to-purple-400 bg-clip-text text-transparent">
-        Skills
-      </h2>
-      <div className="relative h-screen w-full bg-gradient-to-b from-sky-900 to-purple-900 overflow-hidden">
-        <Canvas camera={{ position: [0, 0, 35], fov: 45 }}>
-          <ambientLight intensity={0.75} color="#4f46e5" />
-          <pointLight
-            position={[10, 10, 10]}
-            intensity={2.5}
-            color="#818cf8"
-            castShadow
+    <section className="relative py-24 px-4 sm:px-8 overflow-hidden">
+      {/* Floating Particles */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-white/10"
+            style={{
+              width: `${Math.random() * 5 + 3}px`,
+              height: `${Math.random() * 5 + 3}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{ y: [0, -80], opacity: [0.2, 0] }}
+            transition={{
+              duration: Math.random() * 10 + 8,
+              repeat: Infinity,
+              delay: Math.random() * 4,
+            }}
           />
-          <spotLight
-            position={[0, 0, 50]}
-            angle={0.3}
-            penumbra={1}
-            intensity={3}
-            color="#60a5fa"
-            castShadow
-          />
-
-          <Physics gravity={[0, 0, 0]} iterations={25}>
-            <BoxBoundary position={[0, 25, 0]} args={[50, 2, 50]} />
-            <BoxBoundary position={[0, -25, 0]} args={[50, 2, 50]} />
-            <BoxBoundary position={[25, 0, 0]} args={[2, 50, 50]} />
-            <BoxBoundary position={[-25, 0, 0]} args={[2, 50, 50]} />
-
-            {bubbles.map((bubble) => (
-              <Bubble
-                key={bubble.tech.name}
-                position={bubble.position}
-                tech={bubble.tech}
-                cursor={cursor}
-              />
-            ))}
-          </Physics>
-
-          <Stars
-            radius={300}
-            depth={100}
-            count={3000}
-            factor={6}
-            saturation={0}
-            fade
-            speed={1}
-          />
-        </Canvas>
+        ))}
       </div>
-    </div>
-  );
-};
 
-const BoxBoundary = ({ position, args }: any) => {
-  const [ref] = useBox(() => ({
-    type: "Static",
-    position,
-    args,
-    material: { restitution: 0.85 },
-  }));
-  return <mesh ref={ref} visible={false} />;
+      <div className="relative z-10 max-w-6xl mx-auto text-center">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mb-16"
+        >
+          <div className="inline-block px-6 py-2 bg-black border-2 border-white rounded-lg shadow-[4px_4px_0_#fff] mb-6 hover:shadow-[2px_2px_0_#fff] transition-transform duration-200">
+            <span className="text-sm font-bold uppercase tracking-widest text-white">
+              Technical Arsenal
+            </span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4">
+            Skills &{" "}
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Technologies
+            </span>
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            Interactive cards showcasing my core stack and dev toolset.
+          </p>
+        </motion.div>
+
+        {/* Grid */}
+        <motion.div
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.05,
+              },
+            },
+          }}
+        >
+          {techConfigs.map((tech, index) => (
+            <motion.div
+              key={tech.name}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ type: "spring", stiffness: 80 }}
+              className="bg-black border-2 border-white rounded-lg p-4 shadow-[4px_4px_0_#fff] hover:shadow-[2px_2px_0_#fff] transition-all cursor-default hover:-translate-y-1"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white border-2 border-white"
+                  style={{ backgroundColor: tech.color }}
+                >
+                  {tech.icon}
+                </div>
+                <span className="text-white font-semibold text-sm sm:text-base">
+                  {tech.name}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
 };
 
 export default Skills;

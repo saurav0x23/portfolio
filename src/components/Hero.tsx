@@ -1,98 +1,191 @@
-import React from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const Hero: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="flex flex-col justify-center items-center h-screen px-6 backdrop-blur-lg bg-sky-900/20 rounded-xl p-6 border border-sky-400/20 shadow-xl">
-      {/* Logo */}
-      <motion.div
-        className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex justify-center items-center mb-8 shadow-2xl shadow-purple-500/20"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: "spring", stiffness: 200 }}
+    <>
+      <section
+        id="hero"
+        className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
       >
-        <span className="text-4xl">👨‍💻</span>
-      </motion.div>
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-md -z-10" />
 
-      {/* Position Heading */}
-      <motion.h2
-        className="text-2xl font-semibold mb-4 tracking-wide uppercase bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        Full Stack Web Developer
-      </motion.h2>
-
-      {/* Main Title */}
-      <motion.h1
-        className="text-6xl font-extrabold mb-4 bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        I'm <span className="name text-nebula-secondary">Saurav Pandey</span>
-      </motion.h1>
-
-      {/* Subtitle */}
-      <motion.p
-        className="mt-4 text-xl font-light text-gray-300 max-w-2xl text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7 }}
-      >
-        {`Turning ideas into reality as a Full-Stack Developer passionate about creating interactive and efficient web solutions`
-          .split(" ")
-          .map((word, index) => (
-            <span
-              key={index}
-              className="inline-block opacity-0 animate-waveUp"
-              style={{ animationDelay: `${index * 0.03}s` }}
-            >
-              {word}&nbsp;
-            </span>
-          ))}
-      </motion.p>
-
-      {/* Tech Stack */}
-      <motion.div
-        className="mt-4 flex gap-3 flex-wrap justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-      >
-        {["React", "Next.js", "Node.js", "TypeScript"].map((tech) => (
-          <span
-            key={tech}
-            className="px-3 py-1 text-sm rounded-full bg-gray-800/50 border border-gray-700 text-white"
+        <motion.div
+          className="text-center max-w-4xl mx-auto"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.15 },
+            },
+          }}
+        >
+          <motion.div
+            className="relative border-2 border-white bg-black/80 p-8 rounded-xl shadow-xl mb-16"
+            variants={{
+              hidden: { scale: 0.95, opacity: 0 },
+              visible: { scale: 1, opacity: 1 },
+            }}
           >
-            {tech}
-          </span>
-        ))}
-      </motion.div>
+            <motion.div
+              className="absolute -top-5 left-1/2 transform -translate-x-1/2 px-5 py-1 rounded-full border-2 border-white text-sm uppercase font-semibold tracking-widest bg-black/60 backdrop-blur-sm"
+              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+            >
+              Full Stack Developer
+            </motion.div>
 
-      {/* Buttons */}
-      <motion.div
-        className="mt-12 flex space-x-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2 }}
-      >
-        <a href="#contact" className="relative group">
-          <div className="px-6 py-3 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 backdrop-blur-sm transition-all hover:shadow-[0_0_20px_-5px_rgba(99,102,241,0.5)]">
-            <span className="text-gray-100 font-medium">Contact Me</span>
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
-        </a>
+            <motion.h1
+              className="text-white font-extrabold text-5xl sm:text-6xl lg:text-7xl leading-tight mb-6"
+              variants={{
+                hidden: { y: 30, opacity: 0 },
+                visible: { y: 0, opacity: 1 },
+              }}
+            >
+              I'm{" "}
+              <span className="name bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Saurav Pandey
+              </span>
+            </motion.h1>
 
-        <a href="#resume" className="relative group">
-          <div className="px-6 py-3 rounded-lg bg-gray-800/50 border border-gray-700 backdrop-blur-sm transition-all hover:border-purple-400 hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.3)]">
-            <span className="text-gray-100 font-medium">Resume</span>
+            <motion.p
+              className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
+              variants={{
+                hidden: { y: 20, opacity: 0 },
+                visible: { y: 0, opacity: 1 },
+              }}
+            >
+              I craft immersive{" "}
+              <span className="text-white font-bold">digital experiences</span>{" "}
+              with modern{" "}
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent font-bold">
+                technologies
+              </span>
+              .
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center items-center gap-5"
+            variants={{ hidden: {}, visible: {} }}
+          >
+            {/* Open Modal */}
+            <motion.button
+              onClick={() => setIsModalOpen(true)}
+              className="px-6 py-3 bg-white text-black font-semibold rounded-lg border-2 border-black shadow-lg hover:shadow-md transition-all"
+              whileHover={{ y: -2 }}
+            >
+              Let's Connect
+            </motion.button>
+
+            {/* Resume Link */}
+            <motion.a
+              href="/Saurav_Pandey_Resume.pdf" // 🔁 Replace with actual path if needed
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-black text-white font-semibold rounded-lg border-2 border-white shadow-lg hover:shadow-md transition-all"
+              whileHover={{ y: -2 }}
+            >
+              View Resume
+            </motion.a>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-4">
+          <div className="bg-[#0d0d0d] text-white border border-white/20 rounded-xl shadow-2xl p-6 w-full max-w-lg relative">
+            <h2 className="text-3xl font-extrabold mb-4 text-center">
+              Let's Connect
+            </h2>
+            <p className="mb-6 text-center text-lg text-gray-300">
+              I'm always open to exciting projects and collaborations.
+            </p>
+
+            {/* Contact Section */}
+            <div className="space-y-4">
+              {/* Email */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-400">Email</p>
+                  <p className="font-medium">saurav0x27@gmail.com</p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("saurav0x27@gmail.com");
+                      alert("Email copied to clipboard!");
+                    }}
+                    className="text-sm px-3 py-1 rounded bg-white text-black font-semibold hover:bg-gray-200"
+                  >
+                    Copy
+                  </button>
+                  <a
+                    href="mailto:saurav0x27@gmail.com"
+                    className="text-sm px-3 py-1 rounded border border-white hover:bg-white hover:text-black transition"
+                  >
+                    Email
+                  </a>
+                </div>
+              </div>
+
+              {/* Phone */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-400">Phone</p>
+                  <p className="font-medium">+91 9354024075</p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("+919354024075");
+                      alert("Phone number copied!");
+                    }}
+                    className="text-sm px-3 py-1 rounded bg-white text-black font-semibold hover:bg-gray-200"
+                  >
+                    Copy
+                  </button>
+                  <a
+                    href="tel:+919354024075"
+                    className="text-sm px-3 py-1 rounded border border-white hover:bg-white hover:text-black transition"
+                  >
+                    Call
+                  </a>
+                </div>
+              </div>
+
+              {/* GitHub */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-400">GitHub</p>
+                  <p className="font-medium">github.com/saurav0x23</p>
+                </div>
+                <a
+                  href="https://github.com/saurav0x23"
+                  target="_blank"
+                  className="text-sm px-3 py-1 rounded border border-white hover:bg-white hover:text-black transition"
+                  rel="noopener noreferrer"
+                >
+                  Visit
+                </a>
+              </div>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-3 right-3 text-white hover:text-red-400 text-xl"
+            >
+              ×
+            </button>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
-        </a>
-      </motion.div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

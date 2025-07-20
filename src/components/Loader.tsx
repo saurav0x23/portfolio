@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 
 const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
-  const name = "Saurav Pandey".split("");
+  const name = "Saurav Pandey".split(" ");
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
-          clearInterval(interval);
+          clearInterval(interval); 
           setTimeout(onComplete, 500); // Delay before unmounting
           return 100;
         }
@@ -21,7 +21,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-sky-900 to-purple-900">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-black to-gray-900">
       {/* Stellar background */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(50)].map((_, i) => (
@@ -92,7 +92,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
           {/* Percentage Text */}
           <motion.div
-            className="absolute text-2xl font-bold bg-gradient-to-r from-sky-300 to-purple-400 bg-clip-text text-transparent"
+            className="absolute text-2xl font-bold bg-gradient-to-r from-white to-purple-400 bg-clip-text text-transparent"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
