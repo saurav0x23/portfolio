@@ -88,7 +88,7 @@ const Skills: React.FC = () => {
             },
           }}
         >
-          {techConfigs.map((tech, index) => (
+          {techConfigs.map((tech) => (
             <motion.div
               key={tech.name}
               variants={{
