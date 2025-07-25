@@ -131,46 +131,55 @@ const Projects: React.FC = () => {
   const projectData = [
     {
       image: "/madrasa.png",
-      description:
-        "Online E-learing platform for students around the world. It provides a dashboard for teachers and students to manage their learning experience. Its aim is to create a learning environment that is accessible to everyone, regardless of their location or background.",
-      link: "https://madrasaplatform.com/",
       name: "Madrasa Platform",
-      techUsed: ["REACT", "TYPESCRIPT", "TAILWIND CSS", "FRAMER MOTION"],
+      link: "https://madrasaplatform.com/",
+      description:
+        "A global e-learning platform offering personalized dashboards for both students and teachers. Designed to make quality education accessible to everyone, regardless of location or background.",
+      techUsed: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
       pages: 12,
     },
     {
-      image: "/leading.png",
+      image: "/skillsync.png",
+      name: "SkillSync",
+      link: "https://skillsync-ten.vercel.app/",
       description:
-        "Landing Page for Leading Edge Drone Services. It provides a clean and modern design that is easy to navigate and understand. The website is built with Next.js and Tailwind CSS.",
-      link: "https://myflightteam.com/",
+        "Upload your resume and let AI instantly enhance it. SkillSync matches you with tailored job opportunities from top companies—your career upgrade starts here.",
+      techUsed: ["Next.js", "shadcn/ui", "Supabase", "AI Integration"],
+      pages: 6,
+    },
+    {
+      image: "/leading.png",
       name: "Leading Edge Drone Services",
+      link: "https://myflightteam.com/",
+      description:
+        "Marketing website for a drone services company, with a sleek and professional design built for clarity and performance. Responsive and fully optimized for modern web.",
       techUsed: [
-        "NEXT.JS",
-        "TAILWIND",
-        "VERCEL",
-        "TYPESCRIPT",
-        "NEXT API ROUTERS",
-        "SHADCN UI",
+        "Next.js",
+        "Tailwind CSS",
+        "TypeScript",
+        "shadcn/ui",
+        "Next API Routes",
+        "Vercel",
       ],
       pages: 2,
     },
-    // {
-    //   image: "nftix.png",
-    //   description:
-    //     "Next-generation e-commerce platform with AI-powered recommendations and seamless checkout experience.",
-    //   link: "https://nftix-sigma.vercel.app/",
-    //   name: "NFTix",
-    //   techUsed: ["REACT", "TYPESCRIPT", "TAILWIND CSS", "FRAMER MOTION"],
-    //   pages: 6,
-    // },
     {
-      image: "nftix.png",
-      description:
-        "Next-generation e-commerce platform with AI-powered recommendations and seamless checkout experience.",
-      link: "https://nftix-sigma.vercel.app/",
+      image: "/nftix.png",
       name: "NFTix",
-      techUsed: ["REACT", "TYPESCRIPT", "TAILWIND CSS", "FRAMER MOTION"],
+      link: "https://nftix-sigma.vercel.app/",
+      description:
+        "A decentralized platform to mint secure NFT-based event tickets. Focuses on transparency, safety, and simplicity. Built with performance-first principles and modern UI.",
+      techUsed: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
       pages: 6,
+    },
+    {
+      image: "/plastic.png",
+      name: "Plastic Products Company",
+      link: "https://plastic-products-company.vercel.app/",
+      description:
+        "Clean and minimal landing page for a plastic manufacturing business. Built for clarity, responsiveness, and a smooth user experience.",
+      techUsed: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      pages: 1,
     },
   ];
 
