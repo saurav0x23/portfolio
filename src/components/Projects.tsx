@@ -20,106 +20,98 @@ const ProjectCard: React.FC<ProjectProps> = ({
 }) => {
   return (
     <motion.div
-      id="#projects"
-      className="group relative border-2 border-white rounded-xl overflow-hidden shadow-[8px_8px_0_#fff] hover:shadow-[4px_4px_0_#fff] transition-all duration-300 bg-black"
-      initial={{ opacity: 0, y: 50 }}
+      className="group border-2 border-white rounded-xl overflow-hidden shadow-[8px_8px_0_#fff] hover:shadow-[4px_4px_0_#fff] transition-all duration-200 bg-black"
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ type: "spring", stiffness: 300 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
     >
-      {/* Glassmorphism Overlay */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
       {/* Project Image */}
-      <div className="relative h-96 overflow-hidden">
+      <div className="relative h-96">
         <img
           src={image || "https://source.unsplash.com/random/800x400/?tech,code"}
           alt={name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
         {/* View Button */}
-        <motion.a
+        <a
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-4 right-4 px-4 py-2 bg-white text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0_#000] hover:shadow-[2px_2px_0_#000] transition-all"
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          whileHover={{ y: -2, x: -2 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ delay: 0.3 }}
+          className="absolute top-4 right-4 px-4 py-2 bg-white text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0_#000] hover:shadow-[2px_2px_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-150"
         >
           VIEW LIVE
-        </motion.a>
+        </a>
       </div>
 
       {/* Content */}
-      <div className="p-6 sm:p-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="p-8 bg-black">
+        <div className="flex flex-col lg:flex-row gap-8 bg-black">
           {/* Left Column */}
-          <div className="lg:w-2/3 space-y-4">
-            <motion.h3
-              className="text-3xl sm:text-4xl font-bold text-white"
-              whileHover={{ x: 5 }}
-            >
+          <div className="lg:w-2/3 space-y-6 bg-black">
+            <h3 className="text-3xl sm:text-4xl font-bold text-white">
               {name}
-            </motion.h3>
+            </h3>
 
             <p className="text-gray-300 text-lg leading-relaxed">
               {description}
             </p>
 
             {/* Tech Stack */}
-            <div className="flex flex-wrap gap-2 pt-4">
-              {techUsed.map((tech, index) => (
-                <motion.span
-                  key={index}
-                  className="px-3 py-1 text-sm font-bold bg-black border-2 border-white rounded-lg text-white"
-                  whileHover={{
-                    scale: 1.05,
-                    backgroundColor: "#111",
-                    borderColor: "#60a5fa",
-                  }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  {tech}
-                </motion.span>
-              ))}
+            <div className="space-y-3">
+              <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wide">
+                Technologies Used
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                {techUsed.map((tech, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 text-sm font-bold bg-black border-2 border-white rounded-lg text-white hover:bg-white hover:text-black transition-colors duration-150"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Right Column */}
           <div className="lg:w-1/3 space-y-6">
             {/* Stats Card */}
-            <motion.div
-              className="p-4 bg-black border-2 border-white rounded-lg shadow-[4px_4px_0_#fff]"
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse" />
-                <span className="text-sm font-bold text-white uppercase">
-                  PROJECT STATS
+            <div className="p-6 bg-black border-2 border-white rounded-lg shadow-[4px_4px_0_#fff]">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-3 h-3 bg-white rounded-full" />
+                <span className="text-sm font-bold text-white uppercase tracking-wide">
+                  Project Stats
                 </span>
               </div>
-              <div className="text-3xl font-bold text-white">
-                {pages}+ <span className="text-lg text-gray-300">PAGES</span>
+              <div className="space-y-2">
+                <div className="text-3xl font-bold text-white">
+                  {pages}+ <span className="text-lg text-gray-300">Pages</span>
+                </div>
+                <div className="text-lg font-bold text-white">
+                  {techUsed.length}{" "}
+                  <span className="text-sm text-gray-300">Technologies</span>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Link */}
-            <motion.a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-blue-400 hover:text-blue-300 font-bold underline underline-offset-4"
-              whileHover={{ x: 5 }}
-            >
-              {new URL(link).hostname.replace("www.", "")}
-            </motion.a>
+            {/* External Link */}
+            <div className="p-4 bg-black border-2 border-white rounded-lg">
+              <div className="text-sm font-bold text-gray-400 uppercase tracking-wide mb-2">
+                Live Preview
+              </div>
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-gray-300 font-bold underline underline-offset-4 transition-colors duration-150 break-all"
+              >
+                {new URL(link).hostname.replace("www.", "")}
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -184,71 +176,25 @@ const Projects: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-32 px-4 sm:px-6 relative overflow-hidden">
-      {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/20"
-            style={{
-              width: `${Math.random() * 6 + 2}px`,
-              height: `${Math.random() * 6 + 2}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -100],
-              opacity: [0.2, 0],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-          />
-        ))}
-      </div>
-
+    <section className="py-20 lg:py-32 px-4 sm:px-6 bg-black">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <motion.div
-          className="text-center mb-20 lg:mb-28"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.div
-            className="inline-block px-6 py-2 bg-black border-2 border-white rounded-lg mb-6 shadow-[4px_4px_0_#fff]"
-            whileHover={{ y: -3, x: -3, shadow: "2px 2px 0 #fff" }}
-          >
+        <div className="text-center mb-20 lg:mb-28">
+          <div className="inline-block px-6 py-2 bg-black border-2 border-white rounded-lg mb-6 shadow-[4px_4px_0_#fff]">
             <span className="text-sm font-bold text-white uppercase tracking-widest">
               Featured Work
             </span>
-          </motion.div>
+          </div>
 
-          <motion.h2
-            className="text-5xl sm:text-6xl lg:text-7xl font-black mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <span className="text-white">MY </span>
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              PROJECTS
-            </span>
-          </motion.h2>
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-6 text-white">
+            MY PROJECTS
+          </h2>
 
-          <motion.p
-            className="text-xl text-gray-300 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            Cutting-edge solutions built with modern technologies
-          </motion.p>
-        </motion.div>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            A collection of projects showcasing modern web development and
+            design
+          </p>
+        </div>
 
         {/* Project Cards */}
         <div className="space-y-16 lg:space-y-20">
