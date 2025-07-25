@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
 
             {/* Resume Link */}
             <motion.a
-              href="/Saurav_Pandey_Resume.pdf" // 🔁 Replace with actual path if needed
+              href="/Saurav_Resume.pdf" // 🔁 Replace with actual path if needed
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-black text-white font-semibold rounded-lg border-2 border-white shadow-lg hover:shadow-md transition-all"
