@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css?family=Neonderthaw:700|Smooch%20Sans:400");
 @import url("https://fonts.googleapis.com/css2?family=Neonderthaw&family=Playwrite+VN:wght@100..400&family=Smooch+Sans:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Yellowtail&display=swap");
+@import url("lenis/dist/lenis.css");
+
 :root[data-theme="light"] {
   --text: #141414; /* Night - Primary Text */
-  --background: #fffbdb; /* Light Yellow - Background */
-  --primary: #141328; /* Glaucous - Primary Color */
+  --background: #f9f9f9; /* Light Yellow - Background */
+  --primary: #141414; /* Glaucous - Primary Color */
   --secondary: #cdc7e5; /* Periwinkle - Secondary Color */
   --accent: #ff5722; /* Softer Scarlet - Accent Color */
   --accent-hover: #ff7043; /* Softer Orange for Hover Effects */
@@ -20,7 +22,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+  overscroll-behavior: none;
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -30,7 +33,6 @@ body {
   font-family: "Smooch Sans";
   font-weight: 600;
   color: var(--text);
-  background-color: var(--background);
 }
 
 .name {

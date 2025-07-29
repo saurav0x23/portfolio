@@ -10,12 +10,12 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval); 
-          setTimeout(onComplete, 500); // Delay before unmounting
+          setTimeout(onComplete, 100); // Delay before unmounting
           return 100;
         }
         return prev + 1;
       });
-    }, 30);
+    }, 10);
 
     return () => clearInterval(interval);
   }, [onComplete]);

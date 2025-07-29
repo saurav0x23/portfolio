@@ -23,7 +23,6 @@ const App: React.FC = () => {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              {/* Add more routes as needed */}
             </Routes>
           </Layout>
         </Router>
