@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Neonderthaw:700|Smooch%20Sans:400");
 @import url("https://fonts.googleapis.com/css2?family=Neonderthaw&family=Playwrite+VN:wght@100..400&family=Smooch+Sans:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Yellowtail&display=swap");
-@import url("lenis/dist/lenis.css");
 
 :root[data-theme="light"] {
   --text: #141414; /* Night - Primary Text */
